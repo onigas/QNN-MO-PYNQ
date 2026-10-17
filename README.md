@@ -34,9 +34,25 @@ The six notebooks are numbered in the recommended teaching order:
 | 05 | [05_tiny-yolo-image.ipynb](notebooks/05_tiny-yolo-image.ipynb) | Detect objects in one image, with bounding boxes and CPU/FPGA execution stages. |
 | 06 | [06_tiny-yolo-image-loop.ipynb](notebooks/06_tiny-yolo-image-loop.ipynb) | Repeat object detection over image files; this is not a video-input demo. |
 
-For the object-detection track, read notebook 01 and then start with **05**, followed by **06**. Shut down the previous notebook kernel before loading another FPGA example. Stop the loop demos using **Kernel → Interrupt**.
+For the object-detection track, read notebook 01 and then start with **05**, followed by **06**. Shut down the previous notebook kernel before loading another FPGA example. The loop demos stop after a configurable positive image limit (10 for **04**, 5 for **06**, with one pass through the folder by default). For an early stop, use **Kernel → Interrupt** and wait for the current native call to return. Their `finally` blocks release native resources; rerun the model-loading section before another loop run.
 
-Parameter paths in notebooks 02-06 are resolved from the installed `qnn` package instead of a fixed Python 3.6 directory. Notebook **02** has also been reviewed end to end for the Python 3.8 environment: it checks required files first, reports stage timing directly, and releases resources without `Xlnk`. Its Python processing flow is tested off-board with a simulated accelerator; native-library and FPGA execution must still be checked on the board. The other notebooks have received the parameter-path correction only and may need further compatibility work.
+Notebooks **02–06** resolve parameters from the installed `qnn` package rather than a fixed Python 3.6 directory. Their revised flows check input files, filter image extensions, load legacy NumPy/pickle files explicitly, explain each CPU/FPGA stage, and release resources without global device resets or notebook-level `Xlnk` imports. **03** retains an optional software comparison of the same quantized layers; it is skipped by default. **05–06** explicitly declare the custom Darknet C signatures, pass contiguous float32 detection-head output, free native images/networks, and isolate output files in a unique folder per run. Detection scores are sorted numerically; no detections above threshold is handled normally.
+
+Timing axes use **seconds** and explain the measured scope. Different CPU and FPGA stages must not be presented as a same-workload speedup; predictions/confidence are not dataset accuracy. The Python paths, original NumPy operations, repeated initialization, optional software comparison, loop error/interruption cleanup and empty-detection handling were checked **off-board with simulated accelerator/native interfaces**. This does not validate native-library execution, FPGA predictions or performance on the board.
+
+To update an existing board installation, replace the numbered notebook files in `/home/xilinx/jupyter_notebooks/qnn/` using Jupyter upload and restart their kernels. Keep the existing data/image folders and installed model. **No package reinstallation is needed for these notebook updates.** The unused `Xlnk` imports in the installed Python package must already be removed as described below.
+
+## Troubleshooting: unused Xlnk import on newer PYNQ
+
+If importing `qnn` fails with `ImportError: cannot import name 'Xlnk' from 'pynq'`, the installed copy may still contain the legacy imports. The imports in `qnn/dorefanet.py` and `qnn/tinieryolo.py` are unused and have been removed in this fork.
+
+For the Python 3.8 installation at the path below, update those two installed imports once, then restart the notebook kernel:
+
+```bash
+sudo sed -i.bak 's/from pynq import Overlay, Xlnk/from pynq import Overlay/' /usr/local/share/pynq-venv/lib/python3.8/site-packages/qnn/{dorefanet,tinieryolo}.py
+```
+
+Use the installed package path shown in the traceback if it differs. This fix has already been applied on the board used for these labs; do not repeat installation just to update notebook files.
 
 ## Troubleshooting: installation fails because of insufficient RAM
 
