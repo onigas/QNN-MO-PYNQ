@@ -23,7 +23,7 @@ If the env variable is not set, the precompiled version will be used instead.
 
 ## Notebook execution order
 
-The six notebooks are numbered in the recommended teaching order:
+The eight notebooks are numbered in the recommended teaching order:
 
 | Order | Notebook | Purpose |
 | --- | --- | --- |
@@ -33,14 +33,28 @@ The six notebooks are numbered in the recommended teaching order:
 | 04 | [04_dorefanet-imagenet-loop.ipynb](notebooks/04_dorefanet-imagenet-loop.ipynb) | Repeat ImageNet classification over sample image files. |
 | 05 | [05_tiny-yolo-image.ipynb](notebooks/05_tiny-yolo-image.ipynb) | Detect objects in one image, with bounding boxes and CPU/FPGA execution stages. |
 | 06 | [06_tiny-yolo-image-loop.ipynb](notebooks/06_tiny-yolo-image-loop.ipynb) | Repeat object detection over image files; this is not a video-input demo. |
+| 07 | [07_tiny-yolo-usb-camera.ipynb](notebooks/07_tiny-yolo-usb-camera.ipynb) | USB camera snapshots on demand, with buttons and persistent original/result pairs. |
+| 08 | [08_tiny-yolo-counting-zone-led.ipynb](notebooks/08_tiny-yolo-counting-zone-led.ipynb) | Per-snapshot object counts, a configurable target zone, and an LED0 alarm. |
 
-For the object-detection track, read notebook 01 and then start with **05**, followed by **06**. Shut down the previous notebook kernel before loading another FPGA example. The loop demos stop after a configurable positive image limit (10 for **04**, 5 for **06**, with one pass through the folder by default). For an early stop, use **Kernel → Interrupt** and wait for the current native call to return. Their `finally` blocks release native resources; rerun the model-loading section before another loop run.
+For the object-detection track, read notebook 01 and then start with **05**, followed by **06**, **07**, and **08**. Shut down the previous notebook kernel before loading another FPGA example. The loop demos stop after a configurable positive image limit (10 for **04**, 5 for **06**, with one pass through the folder by default). For an early stop, use **Kernel → Interrupt** and wait for the current native call to return. Their `finally` blocks release native resources; rerun the model-loading section before another loop run.
 
 Notebooks **02–06** resolve parameters from the installed `qnn` package rather than a fixed Python 3.6 directory. Their revised flows check input files, filter image extensions, load legacy NumPy/pickle files explicitly, explain each CPU/FPGA stage, and release resources without global device resets or notebook-level `Xlnk` imports. **03** retains an optional software comparison of the same quantized layers; it is skipped by default. **05–06** explicitly declare the custom Darknet C signatures, pass contiguous float32 detection-head output, free native images/networks, and isolate output files in a unique folder per run. Detection scores are sorted numerically; no detections above threshold is handled normally.
 
 Timing axes use **seconds** and explain the measured scope. Different CPU and FPGA stages must not be presented as a same-workload speedup; predictions/confidence are not dataset accuracy. The Python paths, original NumPy operations, repeated initialization, optional software comparison, loop error/interruption cleanup and empty-detection handling were checked **off-board with simulated accelerator/native interfaces**. This does not validate native-library execution, FPGA predictions or performance on the board.
 
 To update an existing board installation, replace the numbered notebook files in `/home/xilinx/jupyter_notebooks/qnn/` using Jupyter upload and restart their kernels. Keep the existing data/image folders and installed model. **No package reinstallation is needed for these notebook updates.** The unused `Xlnk` imports in the installed Python package must already be removed as described below.
+
+## USB camera and zone-alarm labs (07–08)
+
+Upload the two new notebooks beside the existing notebooks in `/home/xilinx/jupyter_notebooks/qnn/`. Keep the existing model, Darknet installation and diagram files. No package reinstall, model download, training or FPGA rebuild is needed. Connect the USB camera (for example Logitech C270) **to the board**, close other camera/FPGA kernels, and start with **07**.
+
+- **07:** run the setup/definition cells, then use **Preview camera** for a still preview and **Capture + detect** for a fresh snapshot. Each detection appends an original/result pair and saves separate PNG/JSON files. Buttons are disabled during processing. **Finish / release** closes the session. If widgets are unavailable, call `preview_camera()` or `capture_and_detect()` manually.
+- **08:** choose a target class (default `person`) and `ROI = (left, top, right, bottom)` in normalized whole-frame coordinates. An alarm occurs when a target box's **center** lies inside the rectangle. Counts refer to the current snapshot, not unique visitors or line crossings. The coordinate decoder uses the installed five-anchor VOC region head, letterbox correction and class-wise NMS.
+- **Physical LED0:** the supplied YOLO overlay has no LED AXI GPIO. After inference, **08** deinitializes YOLO and loads the installed `base.bit` to set LED0. The next inference reloads YOLO automatically; weights remain in RAM. The LED indicates the last processed snapshot and is reset for the next inference/cleanup. Overlay switching adds latency. Set `PHYSICAL_LED = False` for a screen-only alarm, or if base-overlay/LED control is unavailable. Physical LED mode targets PYNQ-Z1/Z2.
+
+Camera capture uses OpenCV V4L2, defaults to `/dev/video0` at a requested 640×480, and releases the camera in `finally` before slow inference begins. These are button-triggered snapshots, not live-video FPS demonstrations. Images remain visible and are stored in a unique session folder; rerunning a normal Jupyter cell still replaces that cell's own output, so use the optional history cell to redisplay saved results.
+
+The new notebooks and `tests/test_camera_notebooks_offboard.py` were checked off-board with simulated camera, accelerator, Darknet, widgets and base-overlay interfaces, while executing the original NumPy stages. Checks cover capture release/color order, callbacks/manual mode, history, coordinate decoding/NMS/ROI decisions, overlay sequencing, LED errors, inference failure/recovery and cleanup. **USB camera operation, widget rendering, native libraries, FPGA predictions/timing and physical LEDs still require board validation.**
 
 ## Troubleshooting: unused Xlnk import on newer PYNQ
 
@@ -156,3 +170,4 @@ Following the step-by-step instructions:
 	- report: contains the Vivado and Vivado HLS reports;
 	- vivado: contains the Vivado project.
 6.	Copy the generated bitstream and tcl script on the PYNQ board `pip_installation_path/qnn/bitstreams/`
+
