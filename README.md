@@ -21,6 +21,23 @@ This will install the QNN package to your board, and create a **QNN** directory 
 In order to build the shared object during installation, the user should copy the include folder from VIVADO HLS on the PYNQ board (in windows in vivado-path/Vivado_HLS/201x.y/include, /vivado-path/Vidado_HLS/201x.y/include in unix) and set the environment variable *VIVADOHLS_INCLUDE_PATH* to the location in which the folder has been copied.
 If the env variable is not set, the precompiled version will be used instead.
 
+## Notebook execution order
+
+The six notebooks are numbered in the recommended teaching order:
+
+| Order | Notebook | Purpose |
+| --- | --- | --- |
+| 01 | [01_Machine_Learning_on_PYNQ.ipynb](notebooks/01_Machine_Learning_on_PYNQ.ipynb) | Introduction to quantization, dataflow, and multi-layer offload (reading). |
+| 02 | [02_dorefanet-imagenet-samples.ipynb](notebooks/02_dorefanet-imagenet-samples.ipynb) | Classify a labelled ImageNet sample and inspect top-5 predictions and timing. |
+| 03 | [03_dorefanet-classification.ipynb](notebooks/03_dorefanet-classification.ipynb) | Classify an image chosen by the user. |
+| 04 | [04_dorefanet-imagenet-loop.ipynb](notebooks/04_dorefanet-imagenet-loop.ipynb) | Repeat ImageNet classification over sample image files. |
+| 05 | [05_tiny-yolo-image.ipynb](notebooks/05_tiny-yolo-image.ipynb) | Detect objects in one image, with bounding boxes and CPU/FPGA execution stages. |
+| 06 | [06_tiny-yolo-image-loop.ipynb](notebooks/06_tiny-yolo-image-loop.ipynb) | Repeat object detection over image files; this is not a video-input demo. |
+
+For the object-detection track, read notebook 01 and then start with **05**, followed by **06**. Shut down the previous notebook kernel before loading another FPGA example. Stop the loop demos using **Kernel → Interrupt**.
+
+The original executable code still contains Python 3.6 package paths; these may require adaptation on newer PYNQ images. Numbering does not change the installed package or model files.
+
 ## Troubleshooting: installation fails because of insufficient RAM
 
 On a 512 MB PYNQ board, building the wheel can exhaust RAM while packaging the model parameters. The terminal may stop displaying progress and eventually report:
