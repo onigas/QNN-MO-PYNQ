@@ -9,17 +9,85 @@ In order to install it on your PYNQ board, connect to the board, open a terminal
 
 ```shell
 # (on PYNQ v2.3 and later versions, tested up to v2.5)
-sudo pip3 install git+https://github.com/Xilinx/QNN-MO-PYNQ.git
+sudo pip3 install git+https://github.com/onigas/QNN-MO-PYNQ.git
 ```
 
 NOTE: The board has to be connected to the internet.
 
-**The installation can take up to 10 minutes, since dependencies must be resolved and sources compiled.**
+**Installation may take more than 10 minutes, especially on memory-limited boards or when using swap, because dependencies, source builds, and model packaging must complete.**
 
 This will install the QNN package to your board, and create a **QNN** directory in the Jupyter home area. You will find the Jupyter notebooks to test the QNN overlays in this directory.
 
 In order to build the shared object during installation, the user should copy the include folder from VIVADO HLS on the PYNQ board (in windows in vivado-path/Vivado_HLS/201x.y/include, /vivado-path/Vidado_HLS/201x.y/include in unix) and set the environment variable *VIVADOHLS_INCLUDE_PATH* to the location in which the folder has been copied.
 If the env variable is not set, the precompiled version will be used instead.
+
+## Troubleshooting: installation fails because of insufficient RAM
+
+On a 512 MB PYNQ board, building the wheel can exhaust RAM while packaging the model parameters. The terminal may stop displaying progress and eventually report:
+
+```text
+ERROR: Failed building wheel for qnn-loopback
+ERROR: Could not build wheels for qnn-loopback
+```
+
+These messages alone do not establish the cause. Check the kernel log:
+
+```bash
+dmesg | grep -i -E 'out of memory|oom|killed process' | tail -n 10
+```
+
+If it reports `Out of memory: Killed process ... (python3)` for the installation, use the temporary swap procedure below. This failure was observed during wheel packaging in a Python 3.8 PYNQ environment; adding 1 GiB of swap allowed the installation to complete successfully.
+
+### 1. Check available resources
+
+Close unused notebook kernels, then run:
+
+```bash
+free -h
+df -h / /tmp
+```
+
+The procedure adds a 1 GiB file on the SD card. Allow space for that file as well as the installation's temporary files. Existing free disk space does not prevent a RAM shortage.
+
+### 2. Create and enable temporary swap
+
+Run these commands once. Use a new file at the path below; do not recreate or overwrite an already active swap file.
+
+```bash
+sudo dd if=/dev/zero of=/home/xilinx/qnn-install.swap bs=1M count=1024 status=progress
+sudo chmod 600 /home/xilinx/qnn-install.swap
+sudo mkswap /home/xilinx/qnn-install.swap
+sudo swapon /home/xilinx/qnn-install.swap
+free -h
+```
+
+Confirm that `free -h` now shows approximately 1 GiB of additional swap before retrying installation. If the swap file was already created and the board was restarted, enable that existing file with `sudo swapon /home/xilinx/qnn-install.swap` instead of recreating it.
+
+### 3. Retry installation and keep a log
+
+```bash
+sudo pip3 install --log /home/xilinx/jupyter_notebooks/qnn-install.log git+https://github.com/onigas/QNN-MO-PYNQ.git
+```
+
+Installation can take longer with swap because SD-card access is slower than RAM. In a second terminal, inspect progress without interrupting the installation:
+
+```bash
+tail -n 30 /home/xilinx/jupyter_notebooks/qnn-install.log
+```
+
+The log file is accessible from the Jupyter home directory. If installation still fails, use the log to diagnose the new error rather than assuming that every wheel failure is caused by memory.
+
+### 4. Optional cleanup after successful installation
+
+The swap activation above is temporary: it is not added to `/etc/fstab` and will not automatically reactivate after reboot. The file remains on disk.
+
+When memory permits, disable and remove it:
+
+```bash
+sudo swapoff /home/xilinx/qnn-install.swap && sudo rm /home/xilinx/qnn-install.swap
+```
+
+The file is removed only if `swapoff` succeeds. Close unused notebook kernels before cleanup if necessary.
 
 ## Repo organization
 
