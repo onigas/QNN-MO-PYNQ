@@ -36,7 +36,7 @@ The six notebooks are numbered in the recommended teaching order:
 
 For the object-detection track, read notebook 01 and then start with **05**, followed by **06**. Shut down the previous notebook kernel before loading another FPGA example. Stop the loop demos using **Kernel → Interrupt**.
 
-The original executable code still contains Python 3.6 package paths; these may require adaptation on newer PYNQ images. Numbering does not change the installed package or model files.
+Parameter paths in notebooks 02-06 are resolved from the installed `qnn` package instead of a fixed Python 3.6 directory. Notebook **02** has also been reviewed end to end for the Python 3.8 environment: it checks required files first, reports stage timing directly, and releases resources without `Xlnk`. Its Python processing flow is tested off-board with a simulated accelerator; native-library and FPGA execution must still be checked on the board. The other notebooks have received the parameter-path correction only and may need further compatibility work.
 
 ## Troubleshooting: installation fails because of insufficient RAM
 
