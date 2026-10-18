@@ -179,3 +179,12 @@ Following the step-by-step instructions:
 	- vivado: contains the Vivado project.
 6.	Copy the generated bitstream and tcl script on the PYNQ board `pip_installation_path/qnn/bitstreams/`
 
+
+## Raspberry Pi CPU comparison
+
+Separate [Raspberry Pi 4 notebooks 02.1 and 05.1](raspberry_pi/README.md) reuse the
+original models on ARM64 Linux. The guide covers Debian 13 dependencies, native
+reference-output checks and matching measurement boundaries. Notebook 05.1 can read
+a uStreamer snapshot while Home Assistant continues using the existing camera stream.
+Native intermediate images use RAM and are removed after processing. Raspberry Pi
+inference validation is still required; the PYNQ notebooks remain separate.
