@@ -59,7 +59,12 @@ raspberry_pi/.venv/bin/python raspberry_pi/validate_native.py --model tinier-yol
 ```
 
 Primul test verifică numai încărcarea bibliotecilor. Următoarele execută efectiv nucleele
-CPU cu intrările binare din `tests/Test_image` și compară toți octeții cu `verification.bin`.
+CPU cu intrările binare din `tests/Test_image` și compară octeții canalelor valide cu
+`verification.bin`, excluzând padding-ul, exact ca `OffloadUtils::verifyBuffers`.
+Pentru DoReFaNet, bufferul de intrare din fișier are 393216 octeți, dar intrarea efectivă
+are 279936; se folosesc primii 279936, ca în executabilul original C++.
+Versiunea inițială a validatorului transmitea întregul fișier și compara inclusiv padding-ul;
+actualizați repository-ul și repetați testul dacă ați folosit acea versiune.
 Continuați la notebookuri numai după `PASS` pentru modelul respectiv. La `FAIL`, opriți
 comparația și păstrați mesajul complet pentru diagnostic.
 
@@ -136,7 +141,7 @@ Nu sunt modificate pragurile/greutățile pentru a produce rezultate mai favorab
 ## Teste pentru dezvoltare
 
 ```bash
-raspberry_pi/.venv/bin/python -m unittest discover -s tests -p test_rpi_helpers.py -v
+raspberry_pi/.venv/bin/python -m unittest discover -s tests -p 'test_rpi*.py' -v
 ```
 
 Aceste teste verifică împachetarea biților, snapshot HTTP, curățarea temporarelor RAM,
