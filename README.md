@@ -188,3 +188,5 @@ reference-output checks and matching measurement boundaries. Notebook 05.1 can r
 a uStreamer snapshot while Home Assistant continues using the existing camera stream.
 Native intermediate images use RAM and are removed after processing. Raspberry Pi
 inference validation is still required; the PYNQ notebooks remain separate.
+
+[Notebook 02.2 — MobileNet with OpenCV DNN on Raspberry Pi](notebooks/02.2_mobilenet-opencv-imagenet-rpi.ipynb) adds ImageNet Top-5, CPU timing with 1/4 threads, and comparison charts using the measured QNN/PYNQ baselines. It compares different models for the same task; see the notebook for measurement boundaries.

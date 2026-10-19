@@ -147,3 +147,25 @@ raspberry_pi/.venv/bin/python -m unittest discover -s tests -p 'test_rpi*.py' -v
 Aceste teste verifică împachetarea biților, snapshot HTTP, curățarea temporarelor RAM,
 structura notebookurilor și adaptorul Darknet dacă biblioteca sa este disponibilă.
 Nu înlocuiesc verificarea inferenței ARM64 din secțiunea 2.
+
+
+## 02.2 — MobileNet cu OpenCV DNN
+
+[Notebookul 02.2](../notebooks/02.2_mobilenet-opencv-imagenet-rpi.ipynb) folosește
+MobileNet v1 ImageNet prin OpenCV 4.x CPU, în kernelul **QNN Raspberry Pi**.
+Deschideți-l din folderul repository-ului și rulați celulele în ordine. Nu instalați
+Caffe/TensorFlow și nu actualizați OpenCV prin pip: pachetul Debian 4.10 deja instalat este suficient.
+La prima rulare se descarcă aproximativ 17 MB de model, configurație și etichete,
+verificate SHA256, în `raspberry_pi/.deps/mobilenet`.
+
+Notebookul include Top-5, încălzire și cinci măsurători pentru 1 și 4 threaduri,
+mediană/min/max și tabel/grafic automat cu rezultatele istorice ale utilizatorului:
+66,6034 s pentru cele trei etape DoReFaNet pe RPi și 1,296 s pentru aceleași etape pe PYNQ.
+Predicțiile istorice provin din imagini diferite; comparația este pentru ordinul de mărime
+al timpului, nu pentru acuratețe. MobileNet este alt model, nu o conversie DoReFaNet.
+Timpul întregului MobileNet se compară cu întregul calcul DoReFaNet, nu cu nucleul FPGA de 0,057 s.
+Nu se salvează automat fișiere de rezultate sau capturi.
+
+Validare: celulele 02.2 au fost testate cu inferență MobileNet reală pe x86_64/OpenCV 4.10;
+timpii MobileNet pe Raspberry Pi trebuie măsurați local. Testele native QNN pe Pi au trecut
+la 18 octombrie 2026: DoReFaNet 67,017 s și Tinier-YOLO 274,349 s pentru nucleele cuantizate.
