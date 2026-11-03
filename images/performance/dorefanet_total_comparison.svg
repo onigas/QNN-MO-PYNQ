@@ -7,5 +7,5 @@
 <text x="223" y="153.5" text-anchor="end" font-family="Arial" font-size="15">Raspberry Pi 4 CPU</text>
 <rect x="235" y="119.39" width="635.0" height="58.22" fill="#4c78a8"/>
 <text x="880.0" y="153.5" font-family="Arial" font-size="14">66.6034 s</text>
-<text x="480.0" y="215" text-anchor="middle" font-family="Arial" font-size="12" fill="#555">Execution time [s] — logarithmic bar scale</text>
+<text x="480.0" y="196" text-anchor="middle" font-family="Arial" font-size="12" fill="#555">Execution time [s] — logarithmic scale</text>
 </svg>
