@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="285" viewBox="0 0 960 285">
+<rect width="100%" height="100%" fill="white"/>
+<text x="480" y="26" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold">Model and Platform Optimization: DoReFa-Net vs MobileNet (logarithmic scale)</text>
+<text x="223" y="74.1" text-anchor="end" font-family="Arial" font-size="15">DoReFa-Net — RPi4 CPU</text>
+<rect x="235" y="46.9" width="635" height="44.5" fill="#4c78a8"/>
+<text x="880" y="74.1" font-family="Arial" font-size="14">66.6034 s</text>
+<text x="223" y="128.4" text-anchor="end" font-family="Arial" font-size="15">DoReFa-Net — PYNQ-Z2 ARM+FPGA</text>
+<rect x="235" y="101.1" width="265.6" height="44.5" fill="#4c78a8"/>
+<text x="510.6" y="128.4" font-family="Arial" font-size="14">1.2970 s</text>
+<text x="223" y="182.6" text-anchor="end" font-family="Arial" font-size="15">MobileNet — RPi4, 1 thread</text>
+<rect x="235" y="155.4" width="81.3" height="44.5" fill="#4c78a8"/>
+<text x="326.3" y="182.6" font-family="Arial" font-size="14">0.1817 s</text>
+<text x="223" y="236.9" text-anchor="end" font-family="Arial" font-size="15">MobileNet — RPi4, 4 threads</text>
+<rect x="235" y="209.6" width="17.3" height="44.5" fill="#4c78a8"/>
+<text x="262.3" y="236.9" font-family="Arial" font-size="14">0.0918 s</text>
+</svg>
