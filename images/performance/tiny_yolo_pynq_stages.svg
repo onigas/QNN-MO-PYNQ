@@ -1,17 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="285" viewBox="0 0 960 285">
 <rect width="100%" height="100%" fill="white"/>
-<text x="480.0" y="34" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold">Tiny-YOLO on PYNQ-Z2: measured pipeline stages</text>
-<text x="248" y="124.375" text-anchor="end" font-family="Arial" font-size="15">First conv. + quant.</text>
-<rect x="260" y="107.525" width="544.867617107943" height="23.7" fill="#4c78a8"/>
-<text x="814.867617107943" y="124.375" font-family="Arial" font-size="14">1.7260 s</text>
-<text x="248" y="223.125" text-anchor="end" font-family="Arial" font-size="15">Quantized layers</text>
-<rect x="260" y="206.275" width="187.19959266802442" height="23.7" fill="#4c78a8"/>
-<text x="457.1995926680244" y="223.125" font-family="Arial" font-size="14">0.5930 s</text>
-<text x="248" y="321.875" text-anchor="end" font-family="Arial" font-size="15">Last convolution</text>
-<rect x="260" y="305.025" width="20.519348268839106" height="23.7" fill="#4c78a8"/>
-<text x="290.5193482688391" y="321.875" font-family="Arial" font-size="14">0.0650 s</text>
-<text x="248" y="420.625" text-anchor="end" font-family="Arial" font-size="15">Decode/draw/I-O</text>
-<rect x="260" y="403.775" width="620.0" height="23.7" fill="#4c78a8"/>
-<text x="890.0" y="420.625" font-family="Arial" font-size="14">1.9640 s</text>
-<text x="480.0" y="502" text-anchor="middle" font-family="Arial" font-size="13" fill="#555">Execution time [s]</text>
+<text x="480.0" y="26" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold">Tiny-YOLO on PYNQ-Z2: measured pipeline stages</text>
+<text x="223" y="74.125" text-anchor="end" font-family="Arial" font-size="15">First conv. + quant.</text>
+<rect x="235" y="46.8825" width="558.0498981670062" height="44.485" fill="#4c78a8"/>
+<text x="803.0498981670062" y="74.125" font-family="Arial" font-size="14">1.7260 s</text>
+<text x="223" y="128.375" text-anchor="end" font-family="Arial" font-size="15">Quantized layers</text>
+<rect x="235" y="101.1325" width="191.7286150712831" height="44.485" fill="#4c78a8"/>
+<text x="436.7286150712831" y="128.375" font-family="Arial" font-size="14">0.5930 s</text>
+<text x="223" y="182.625" text-anchor="end" font-family="Arial" font-size="15">Last convolution</text>
+<rect x="235" y="155.3825" width="21.015784114052956" height="44.485" fill="#4c78a8"/>
+<text x="266.01578411405296" y="182.625" font-family="Arial" font-size="14">0.0650 s</text>
+<text x="223" y="236.875" text-anchor="end" font-family="Arial" font-size="15">Decode/draw/I-O</text>
+<rect x="235" y="209.6325" width="635.0" height="44.485" fill="#4c78a8"/>
+<text x="880.0" y="236.875" font-family="Arial" font-size="14">1.9640 s</text>
 </svg>
