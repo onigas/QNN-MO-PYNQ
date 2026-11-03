@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="385" viewBox="0 0 960 385">
+<rect width="100%" height="100%" fill="white"/>
+<text x="480" y="26" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold">DoReFa-Net: execution time by stage (logarithmic scale)</text>
+<text x="223" y="73.4" text-anchor="end" font-family="Arial" font-size="15">PYNQ first convolution</text>
+<rect x="235" y="46.8" width="231.9" height="43.3" fill="#4c78a8"/>
+<text x="476.9" y="73.4" font-family="Arial" font-size="14">0.6670 s</text>
+<text x="223" y="126.3" text-anchor="end" font-family="Arial" font-size="15">RPi first convolution</text>
+<rect x="235" y="99.6" width="175.9" height="43.3" fill="#4c78a8"/>
+<text x="420.9" y="126.3" font-family="Arial" font-size="14">0.3524 s</text>
+<text x="223" y="179.1" text-anchor="end" font-family="Arial" font-size="15">PYNQ quantized layers</text>
+<rect x="235" y="152.4" width="16.2" height="43.3" fill="#4c78a8"/>
+<text x="261.2" y="179.1" font-family="Arial" font-size="14">0.0570 s</text>
+<text x="223" y="231.9" text-anchor="end" font-family="Arial" font-size="15">RPi quantized layers</text>
+<rect x="235" y="205.3" width="635" height="43.3" fill="#4c78a8"/>
+<text x="880" y="231.9" font-family="Arial" font-size="14">66.1156 s</text>
+<text x="223" y="284.8" text-anchor="end" font-family="Arial" font-size="15">PYNQ fully connected</text>
+<rect x="235" y="258.1" width="218.6" height="43.3" fill="#4c78a8"/>
+<text x="463.6" y="284.8" font-family="Arial" font-size="14">0.5730 s</text>
+<text x="223" y="337.6" text-anchor="end" font-family="Arial" font-size="15">RPi fully connected</text>
+<rect x="235" y="310.9" width="92.0" height="43.3" fill="#4c78a8"/>
+<text x="337.0" y="337.6" font-family="Arial" font-size="14">0.1354 s</text>
+</svg>
