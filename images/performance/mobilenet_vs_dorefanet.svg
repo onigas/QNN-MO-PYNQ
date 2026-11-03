@@ -1,17 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="285" viewBox="0 0 960 285">
 <rect width="100%" height="100%" fill="white"/>
-<text x="480.0" y="34" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold">Model and Platform Optimization: DoReFa-Net vs MobileNet</text>
-<text x="248" y="124.375" text-anchor="end" font-family="Arial" font-size="15">DoReFa-Net — RPi4 CPU</text>
-<rect x="260" y="107.525" width="620.0" height="23.7" fill="#4c78a8"/>
-<text x="890.0" y="124.375" font-family="Arial" font-size="14">66.6034 s</text>
-<text x="248" y="223.125" text-anchor="end" font-family="Arial" font-size="15">DoReFa-Net — PYNQ-Z2 ARM+FPGA</text>
-<rect x="260" y="206.275" width="264.1904753696441" height="23.7" fill="#4c78a8"/>
-<text x="534.1904753696441" y="223.125" font-family="Arial" font-size="14">1.2970 s</text>
-<text x="248" y="321.875" text-anchor="end" font-family="Arial" font-size="15">MobileNet — RPi4, 1 thread</text>
-<rect x="260" y="305.025" width="86.6379046231905" height="23.7" fill="#4c78a8"/>
-<text x="356.6379046231905" y="321.875" font-family="Arial" font-size="14">0.1817 s</text>
-<text x="248" y="420.625" text-anchor="end" font-family="Arial" font-size="15">MobileNet — RPi4, 4 threads</text>
-<rect x="260" y="403.775" width="24.960967299187725" height="23.7" fill="#4c78a8"/>
-<text x="294.9609672991877" y="420.625" font-family="Arial" font-size="14">0.0918 s</text>
-<text x="480.0" y="502" text-anchor="middle" font-family="Arial" font-size="13" fill="#555">Execution time [s] — logarithmic bar scale</text>
+<text x="480.0" y="26" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold">Model and Platform Optimization: DoReFa-Net vs MobileNet</text>
+<text x="223" y="74.125" text-anchor="end" font-family="Arial" font-size="15">DoReFa-Net — RPi4 CPU</text>
+<rect x="235" y="46.8825" width="635.0" height="44.485" fill="#4c78a8"/>
+<text x="880.0" y="74.125" font-family="Arial" font-size="14">66.6034 s</text>
+<text x="223" y="128.375" text-anchor="end" font-family="Arial" font-size="15">DoReFa-Net — PYNQ-Z2 ARM+FPGA</text>
+<rect x="235" y="101.1325" width="265.62521704335853" height="44.485" fill="#4c78a8"/>
+<text x="510.62521704335853" y="128.375" font-family="Arial" font-size="14">1.2970 s</text>
+<text x="223" y="182.625" text-anchor="end" font-family="Arial" font-size="15">MobileNet — RPi4, 1 thread</text>
+<rect x="235" y="155.3825" width="81.30344445731401" height="44.485" fill="#4c78a8"/>
+<text x="326.303444457314" y="182.625" font-family="Arial" font-size="14">0.1817 s</text>
+<text x="223" y="236.875" text-anchor="end" font-family="Arial" font-size="15">MobileNet — RPi4, 4 threads</text>
+<rect x="235" y="209.6325" width="17.27507039635647" height="44.485" fill="#4c78a8"/>
+<text x="262.27507039635645" y="236.875" font-family="Arial" font-size="14">0.0918 s</text>
+<text x="480.0" y="277" text-anchor="middle" font-family="Arial" font-size="12" fill="#555">Execution time [s] — logarithmic bar scale</text>
 </svg>
