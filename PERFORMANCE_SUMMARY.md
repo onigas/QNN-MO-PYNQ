@@ -45,7 +45,9 @@ The objective of this experiment is therefore to compare:
 | Fully connected layer | ARM CPU | 0.573 | 0.1354 |
 | **Measured stage sum** | **ARM + FPGA** | **1.297** | **66.6034** |
 
-![DoReFa-Net stage comparison](images/performance/dorefanet_stage_comparison.svg)
+![DoReFa-Net stage comparison](images/performance/dorefanet_stage_comparison_v3.svg)
+
+*Bar lengths use a logarithmic scale; numeric labels show the measured execution time in seconds.*
 
 ### 1.2 Performance comparison
 
@@ -62,7 +64,9 @@ This corresponds to an overall measured speedup of approximately **51.4x**.
 
 For the quantized layers alone, the measured acceleration is approximately **1160x**.
 
-![DoReFa-Net total comparison](images/performance/dorefanet_total_comparison.svg)
+![DoReFa-Net total comparison](images/performance/dorefanet_total_comparison_v3.svg)
+
+*Bar lengths use a logarithmic scale; numeric labels show the measured execution time in seconds.*
 
 ---
 
@@ -85,7 +89,9 @@ MobileNet was specifically designed for efficient inference on resource-constrai
 | MobileNet, 1 thread | Raspberry Pi 4 CPU | 0.1817 |
 | MobileNet, 4 threads | Raspberry Pi 4 CPU | 0.0918 |
 
-![Model and platform optimization](images/performance/mobilenet_vs_dorefanet.svg)
+![Model and platform optimization](images/performance/mobilenet_vs_dorefanet_v3.svg)
+
+*Bar lengths use a logarithmic scale; numeric labels show the measured execution time in seconds.*
 
 The MobileNet implementation is dramatically faster than the CPU implementation of DoReFa-Net on the same Raspberry Pi 4.
 
@@ -142,7 +148,9 @@ The result confirms the same trend observed with DoReFa-Net: the computationally
 
 At the same time, the timing breakdown shows that non-accelerated operations such as preprocessing, decoding, visualization, and file I/O can become a significant fraction of the complete application latency.
 
-![Tiny-YOLO platform comparison](images/performance/tiny_yolo_platform_comparison.svg)
+![Tiny-YOLO platform comparison](images/performance/tiny_yolo_platform_comparison_v3.svg)
+
+*Bar lengths use a logarithmic scale; numeric labels show the measured execution time in seconds.*
 
 ---
 
