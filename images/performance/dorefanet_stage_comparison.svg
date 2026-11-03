@@ -1,23 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="385" viewBox="0 0 960 385">
 <rect width="100%" height="100%" fill="white"/>
-<text x="480.0" y="34" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold">DoReFa-Net: execution time by stage</text>
-<text x="248" y="107.91666666666666" text-anchor="end" font-family="Arial" font-size="15">PYNQ first convolution</text>
-<rect x="260" y="95.01666666666665" width="231.34935217214536" height="15.799999999999999" fill="#4c78a8"/>
-<text x="501.34935217214536" y="107.91666666666666" font-family="Arial" font-size="14">0.6670 s</text>
-<text x="248" y="173.75" text-anchor="end" font-family="Arial" font-size="15">RPi first convolution</text>
-<rect x="260" y="160.85" width="177.40066798095256" height="15.799999999999999" fill="#4c78a8"/>
-<text x="447.40066798095256" y="173.75" font-family="Arial" font-size="14">0.3524 s</text>
-<text x="248" y="239.58333333333331" text-anchor="end" font-family="Arial" font-size="15">PYNQ quantized layers</text>
-<rect x="260" y="226.6833333333333" width="23.363685592485467" height="15.799999999999999" fill="#4c78a8"/>
-<text x="293.36368559248547" y="239.58333333333331" font-family="Arial" font-size="14">0.0570 s</text>
-<text x="248" y="305.41666666666663" text-anchor="end" font-family="Arial" font-size="15">RPi quantized layers</text>
-<rect x="260" y="292.51666666666665" width="620.0" height="15.799999999999999" fill="#4c78a8"/>
-<text x="890.0" y="305.41666666666663" font-family="Arial" font-size="14">66.1156 s</text>
-<text x="248" y="371.25" text-anchor="end" font-family="Arial" font-size="15">PYNQ fully connected</text>
-<rect x="260" y="358.35" width="218.5049300543506" height="15.799999999999999" fill="#4c78a8"/>
-<text x="488.5049300543506" y="371.25" font-family="Arial" font-size="14">0.5730 s</text>
-<text x="248" y="437.0833333333333" text-anchor="end" font-family="Arial" font-size="15">RPi fully connected</text>
-<rect x="260" y="424.18333333333334" width="96.52002066951788" height="15.799999999999999" fill="#4c78a8"/>
-<text x="366.52002066951786" y="437.0833333333333" font-family="Arial" font-size="14">0.1354 s</text>
-<text x="480.0" y="502" text-anchor="middle" font-family="Arial" font-size="13" fill="#555">Execution time [s] — logarithmic bar scale</text>
+<text x="480.0" y="26" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold">DoReFa-Net: execution time by stage</text>
+<text x="223" y="73.41666666666667" text-anchor="end" font-family="Arial" font-size="15">PYNQ first convolution</text>
+<rect x="235" y="46.75500000000001" width="231.88291127418765" height="43.32333333333333" fill="#4c78a8"/>
+<text x="476.8829112741877" y="73.41666666666667" font-family="Arial" font-size="14">0.6670 s</text>
+<text x="223" y="126.25" text-anchor="end" font-family="Arial" font-size="15">RPi first convolution</text>
+<rect x="235" y="99.58833333333334" width="175.92613715509592" height="43.32333333333333" fill="#4c78a8"/>
+<text x="420.92613715509594" y="126.25" font-family="Arial" font-size="14">0.3524 s</text>
+<text x="223" y="179.08333333333334" text-anchor="end" font-family="Arial" font-size="15">PYNQ quantized layers</text>
+<rect x="235" y="152.42166666666668" width="16.155555931076357" height="43.32333333333333" fill="#4c78a8"/>
+<text x="261.1555559310764" y="179.08333333333334" font-family="Arial" font-size="14">0.0570 s</text>
+<text x="223" y="231.91666666666669" text-anchor="end" font-family="Arial" font-size="15">RPi quantized layers</text>
+<rect x="235" y="205.25500000000002" width="635.0" height="43.32333333333333" fill="#4c78a8"/>
+<text x="880.0" y="231.91666666666669" font-family="Arial" font-size="14">66.1156 s</text>
+<text x="223" y="284.75" text-anchor="end" font-family="Arial" font-size="15">PYNQ fully connected</text>
+<rect x="235" y="258.0883333333333" width="218.56039121811853" height="43.32333333333333" fill="#4c78a8"/>
+<text x="463.5603912181185" y="284.75" font-family="Arial" font-size="14">0.5730 s</text>
+<text x="223" y="337.58333333333337" text-anchor="end" font-family="Arial" font-size="15">RPi fully connected</text>
+<rect x="235" y="310.9216666666667" width="92.03493239146404" height="43.32333333333333" fill="#4c78a8"/>
+<text x="337.03493239146405" y="337.58333333333337" font-family="Arial" font-size="14">0.1354 s</text>
+<text x="480.0" y="377" text-anchor="middle" font-family="Arial" font-size="12" fill="#555">Execution time [s] — logarithmic bar scale</text>
 </svg>
