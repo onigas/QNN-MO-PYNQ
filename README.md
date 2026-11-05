@@ -12,7 +12,7 @@ This repository provides an independently redesigned teaching sequence for **qua
 | **Română** | [Laboratoare în limba română](notebooks/ro/README.md) | 11 notebooks translated |
 | **Magyar** | [Magyar nyelvű laboratóriumok](notebooks/hu/README.md) | 11 notebooks translated |
 
-[Language selection page](notebooks/README.md). The working English notebooks remain at their original `notebooks/` paths so existing PYNQ installations, resources and links continue to work. The `en/` folder catalogs the original English notebooks. The `ro/` and `hu/` directories contain translated copies of all 11 notebook lessons. The English originals remain in place, while shared models and data are not duplicated. Translated notebooks have not been validated independently on hardware.
+[Language selection page](notebooks/README.md). The working English notebooks remain at their original `notebooks/` paths so existing PYNQ installations, resources and links continue to work. The `en/` folder catalogs the original English notebooks. The `ro/` and `hu/` directories contain translated copies of all 11 notebook lessons. The English originals remain in place, while shared models and data are not duplicated. Translated notebooks have not been validated independently on hardware. The pre-multilingual English-only repository is preserved in the [English-only backup branch](https://github.com/onigas/QNN-MO-PYNQ/tree/backup/english-only-2026-11-05); see the [safe rollback guide](MULTILINGUAL_ROLLBACK.md).
 
 ### Authorship and attribution
 
