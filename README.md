@@ -4,6 +4,16 @@
 
 This repository provides an independently redesigned teaching sequence for **quantized neural networks and FPGA-accelerated inference on PYNQ-Z2**, using the Xilinx QNN-MO-PYNQ framework as its technical foundation. The eight numbered Jupyter notebooks have been extensively rewritten and organized as educational laboratories; they should **not** be attributed to Xilinx as Xilinx-authored laboratory exercises.
 
+## Choose a laboratory language
+
+| Language | Laboratories | Availability |
+| --- | --- | --- |
+| **English** | [Browse the 11 English notebooks](notebooks/en/README.md) | Available |
+| **Română** | [Laboratoare în limba română](notebooks/ro/README.md) | Translation planned |
+| **Magyar** | [Magyar nyelvű laboratóriumok](notebooks/hu/README.md) | Translation planned |
+
+[Language selection page](notebooks/README.md). The working English notebooks remain at their original `notebooks/` paths so existing PYNQ installations, resources and links continue to work. The language folders are catalogs for now; no translated notebook is being represented as completed.
+
 ### Authorship and attribution
 
 | Component | Attribution |
