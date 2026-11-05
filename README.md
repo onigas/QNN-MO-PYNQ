@@ -1,27 +1,27 @@
-# QNN-MO-PYNQ PIP INSTALL Package
+# QNN-MO-PYNQ — Educational Laboratories for PYNQ-Z2
 
-This repo contains the pip install package for Quantized Neural Network (QNN) on PYNQ using a Multi-Layer Offload (MO) architecture.
-Two different overlays are here included, namely W1A2 (1 bit weights, 2 bit activations) and W1A3 (1 bit weights, 3 bit activations), executing in the Programmable Logic 1 Convolutional layer and 1 (optional) Max Pool layer.
+**Educational laboratory notebooks (01–08): Prof. dr. ing. habil. Stefan Oniga**
 
-## Quick Start
+This repository provides an independently redesigned teaching sequence for **quantized neural networks and FPGA-accelerated inference on PYNQ-Z2**, using the Xilinx QNN-MO-PYNQ framework as its technical foundation. The eight numbered Jupyter notebooks have been extensively rewritten and organized as educational laboratories; they should **not** be attributed to Xilinx as Xilinx-authored laboratory exercises.
 
-In order to install it on your PYNQ board, connect to the board, open a terminal and type:
+### Authorship and attribution
 
-```shell
-# (on PYNQ v2.3 and later versions, tested up to v2.5)
-sudo pip3 install git+https://github.com/onigas/QNN-MO-PYNQ.git
-```
+| Component | Attribution |
+| --- | --- |
+| Educational content, structure and rewritten notebooks **01–08**, including the camera, object-counting and zone/LED exercises | **Prof. dr. ing. habil. Stefan Oniga** |
+| Original **QNN-MO-PYNQ** project, multi-layer-offload approach and original software/hardware framework | **Xilinx** — [Xilinx/QNN-MO-PYNQ](https://github.com/Xilinx/QNN-MO-PYNQ) |
+| Original QNN package components, HLS/network sources, W1A2/W1A3 overlays, drivers, bitstreams and supplied trained network parameters, where retained | **Xilinx and the respective original contributors**; see the upstream repository and notices in the corresponding files |
+| Third-party architectures and datasets, including DoReFa-Net, Tiny-YOLO, ImageNet and PASCAL VOC | Their respective authors and maintainers; links and relevant references appear below |
 
-NOTE: The board has to be connected to the internet.
+**License and original notices.** The inherited Xilinx code and assets remain subject to their applicable original terms. The repository's [BSD-3-Clause LICENSE](LICENSE) retains **Copyright (c) 2018, Xilinx** and must be respected when reusing those components. This repository is an independent educational adaptation, **not an official Xilinx or AMD educational release or endorsement**. Its Git history remains available for tracing the provenance of inherited and modified files.
 
-**Installation may take more than 10 minutes, especially on memory-limited boards or when using swap, because dependencies, source builds, and model packaging must complete.**
+**Validation scope.** The notebooks and tests distinguish off-board software checks from validation on the physical PYNQ hardware. Passing simulated or off-board tests does not establish FPGA execution, numerical predictions, or timing on the board; consult the laboratory notes below for the specific status of each experiment.
 
-This will install the QNN package to your board, and create a **QNN** directory in the Jupyter home area. You will find the Jupyter notebooks to test the QNN overlays in this directory.
+### Technical foundation
 
-In order to build the shared object during installation, the user should copy the include folder from VIVADO HLS on the PYNQ board (in windows in vivado-path/Vivado_HLS/201x.y/include, /vivado-path/Vidado_HLS/201x.y/include in unix) and set the environment variable *VIVADOHLS_INCLUDE_PATH* to the location in which the folder has been copied.
-If the env variable is not set, the precompiled version will be used instead.
+The underlying Xilinx QNN-MO-PYNQ package implements quantized neural network (QNN) inference on PYNQ using a **multi-layer offload (MO)** architecture. It includes the W1A2 (1-bit weights, 2-bit activations) and W1A3 (1-bit weights, 3-bit activations) overlays, with FPGA acceleration of a convolutional layer and an optional max-pooling layer.
 
-## Notebook execution order
+## Educational laboratories: notebook execution order
 
 The eight notebooks are numbered in the recommended teaching order:
 
@@ -43,6 +43,24 @@ Notebooks **02–06** resolve parameters from the installed `qnn` package rather
 Timing axes use **seconds** and explain the measured scope. Different CPU and FPGA stages must not be presented as a same-workload speedup; predictions/confidence are not dataset accuracy. The Python paths, original NumPy operations, repeated initialization, optional software comparison, loop error/interruption cleanup and empty-detection handling were checked **off-board with simulated accelerator/native interfaces**. This does not validate native-library execution, FPGA predictions or performance on the board.
 
 To update an existing board installation, replace the numbered notebook files in `/home/xilinx/jupyter_notebooks/qnn/` using Jupyter upload and restart their kernels. Keep the existing data/image folders and installed model. **No package reinstallation is needed for these notebook updates.** The unused `Xlnk` imports in the installed Python package must already be removed as described below.
+
+## Installation of the QNN-MO framework
+
+To install the underlying QNN-MO package and the notebooks in this repository on a PYNQ board, open a terminal on the board and run:
+
+```shell
+# (on PYNQ v2.3 and later versions, tested up to v2.5)
+sudo pip3 install git+https://github.com/onigas/QNN-MO-PYNQ.git
+```
+
+NOTE: The board has to be connected to the internet.
+
+**Installation may take more than 10 minutes, especially on memory-limited boards or when using swap, because dependencies, source builds, and model packaging must complete.**
+
+This will install the QNN package to your board, and create a **QNN** directory in the Jupyter home area. You will find the Jupyter notebooks to test the QNN overlays in this directory.
+
+In order to build the shared object during installation, the user should copy the include folder from VIVADO HLS on the PYNQ board (in windows in vivado-path/Vivado_HLS/201x.y/include, /vivado-path/Vidado_HLS/201x.y/include in unix) and set the environment variable *VIVADOHLS_INCLUDE_PATH* to the location in which the folder has been copied.
+If the env variable is not set, the precompiled version will be used instead.
 
 ## USB camera and zone-alarm labs (07–08)
 
