@@ -9,10 +9,10 @@ This repository provides an independently redesigned teaching sequence for **qua
 | Language | Laboratories | Availability |
 | --- | --- | --- |
 | **English** | [Browse the 11 English notebooks](notebooks/en/README.md) | Available |
-| **Română** | [Laboratoare în limba română](notebooks/ro/README.md) | Translation planned |
-| **Magyar** | [Magyar nyelvű laboratóriumok](notebooks/hu/README.md) | Translation planned |
+| **Română** | [Laboratoare în limba română](notebooks/ro/README.md) | Labs 01–03 translated |
+| **Magyar** | [Magyar nyelvű laboratóriumok](notebooks/hu/README.md) | Labs 01–03 translated |
 
-[Language selection page](notebooks/README.md). The working English notebooks remain at their original `notebooks/` paths so existing PYNQ installations, resources and links continue to work. The language folders are catalogs for now; no translated notebook is being represented as completed.
+[Language selection page](notebooks/README.md). The working English notebooks remain at their original `notebooks/` paths so existing PYNQ installations, resources and links continue to work. The `en/` folder catalogs the original English notebooks; `ro/` and `hu/` now contain translations of labs 01–03. The other translations are not yet available.
 
 ### Authorship and attribution
 
