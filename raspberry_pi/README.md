@@ -1,24 +1,25 @@
-# Raspberry Pi 4 — comparație CPU cu PYNQ
+# Raspberry Pi 4 — CPU comparison with PYNQ
 
-Notebookuri separate, cu modelele și greutățile originale:
+Separate notebooks using the original models and weights:
 
 - [02.1 — DoReFaNet ImageNet](../notebooks/02.1_dorefanet-imagenet-rpi.ipynb)
-- [05.1 — Tinier-YOLO, fișier sau cameră Logitech](../notebooks/05.1_tiny-yolo-image-rpi.ipynb)
+- [05.1 — Tinier-YOLO, image file or Logitech camera](../notebooks/05.1_tiny-yolo-image-rpi.ipynb)
 
-Ținta este **Raspberry Pi 4 Model B, 4 GB, Debian 13 Trixie ARM64**.
-`uname -m` trebuie să afișeze `aarch64`. Nu instalați pachetul PYNQ și nu executați
-`pip install .` pentru acest port. Notebookurile PYNQ 01–08 rămân separate.
+Target platform: **Raspberry Pi 4 Model B, 4 GB, Debian 13 Trixie ARM64**.
+`uname -m` must report `aarch64`. Do not install the PYNQ package or run
+`pip install .` for this port. PYNQ notebooks 01–08 remain separate.
 
-**Stare:** adaptoare și notebookuri pregătite pentru validare pe dispozitiv.
-Cele cinci teste locale au trecut, inclusiv adaptorul Darknet compilat pe x86_64.
-Celulele ambelor notebookuri au fost executate local cu ieșirea nucleului ARM64 înlocuită
-de date de referință; aceasta verifică fluxul Python, nu corectitudinea inferenței pe Pi. Rulați obligatoriu cele două verificări de referință de mai jos.
-Nu sunt publicate rezultate de performanță măsurate pe Raspberry Pi.
+**Status:** adapters and notebooks prepared for on-device validation.
+All five local tests passed, including the Darknet adapter compiled on x86_64.
+Both notebooks' cells were executed locally with the ARM64 kernel output replaced
+by reference data. This verifies the Python workflow, not inference correctness on
+the Pi. Run the two native reference checks below before using the notebooks.
+No Raspberry Pi performance results were published at this stage.
 
-## 1. Instalare pe Pi
+## 1. Installation on Raspberry Pi
 
-Păstrați uStreamer și Home Assistant în funcțiune. Nu este necesară modificarea camerei.
-Dintr-un terminal pe Raspberry Pi:
+Keep uStreamer and Home Assistant running; the camera does not need reconfiguration.
+From a terminal on the Raspberry Pi:
 
 ```bash
 sudo apt update
@@ -29,28 +30,29 @@ cd QNN-MO-PYNQ
 bash raspberry_pi/setup_rpi.sh
 ```
 
-Dacă aveți deja un checkout fără modificări locale, folosiți `git pull --ff-only` în el,
-apoi comanda de instalare. Nu suprascrieți notebookuri modificate. Folosiți o cale scurtă,
-fără spații (de exemplu `~/QNN-MO-PYNQ`), deoarece Darknet este un proiect C vechi.
-Instalarea descarcă surse și decomprimă greutăți mari; sunt necesare spațiu liber și internet.
-Pe Pi cu 4 GB, închideți alte notebookuri de inferență înainte de DoReFaNet.
+If you already have a checkout without local modifications, run `git pull --ff-only`
+there and then rerun the setup command. Do not overwrite modified notebooks. Use a
+short directory path without spaces (for example `~/QNN-MO-PYNQ`), as Darknet is a
+legacy C project. Installation downloads source code and decompresses large weights;
+sufficient free storage space and internet access are required.
+On a Pi with 4 GB RAM, close other inference notebooks before running DoReFaNet.
 
-Scriptul creează un mediu local `.venv` care folosește pachetele Python Debian,
-descarcă și verifică SHA256 pentru pachetul Debian ARM64 `libzip4`, îl extrage doar în
-`.deps/libzip4`, și compilează Darknet CPU cu două joburi.
-Nu înlocuiește libzip din sistem și nu creează legături între ABI-urile libzip5 și libzip4.
-Bibliotecile software originale `qnn/libraries/ultra96/lib_sw_W1A2.so` și `lib_sw_W1A3.so`
-sunt binare ARM64; adaptoarele verifică SHA256 înainte de încărcare. Ele nu folosesc FPGA.
+The setup script creates a local `.venv` using Debian Python packages,
+downloads and SHA256-verifies the Debian ARM64 `libzip4` package, extracts it only to
+`.deps/libzip4`, and compiles CPU Darknet with two parallel jobs.
+It does not replace system libzip or link the incompatible libzip5 and libzip4 ABIs.
+The original software libraries `qnn/libraries/ultra96/lib_sw_W1A2.so` and `lib_sw_W1A3.so`
+are ARM64 binaries; the adapters check SHA256 before loading. They do not use an FPGA.
 
-Darknet provine din `giuliogamba/darknet`, commit fix
-`3bbbe379de1ecd8d8e533b73795f105f650da8e5`, cu GPU/CUDNN/OpenCV/OpenMP dezactivate.
-`darknet_compat.h` declară funcția `load_alphabet_path` care lipsește din antetul original;
-acest lucru evită trunchierea pointerilor pe 64 de biți. `-fcommon` permite definițiile
-globale vechi. Sursele externe sunt ținute în `.deps`, nu instalate global.
+Darknet is obtained from `giuliogamba/darknet`, pinned to commit
+`3bbbe379de1ecd8d8e533b73795f105f650da8e5`, with GPU/CUDNN/OpenCV/OpenMP disabled.
+`darknet_compat.h` declares the `load_alphabet_path` function missing from the original
+header to avoid truncated pointers on 64-bit targets. `-fcommon` permits legacy
+global definitions. External sources are kept under `.deps`, not installed globally.
 
-## 2. Verificare înainte de benchmark
+## 2. Verification before benchmarking
 
-În directorul rădăcină al repository-ului:
+From the repository root:
 
 ```bash
 raspberry_pi/.venv/bin/python raspberry_pi/validate_native.py --load-only
@@ -58,114 +60,125 @@ raspberry_pi/.venv/bin/python raspberry_pi/validate_native.py --model dorefanet
 raspberry_pi/.venv/bin/python raspberry_pi/validate_native.py --model tinier-yolo
 ```
 
-Primul test verifică numai încărcarea bibliotecilor. Următoarele execută efectiv nucleele
-CPU cu intrările binare din `tests/Test_image` și compară octeții canalelor valide cu
-`verification.bin`, excluzând padding-ul, exact ca `OffloadUtils::verifyBuffers`.
-Pentru DoReFaNet, bufferul de intrare din fișier are 393216 octeți, dar intrarea efectivă
-are 279936; se folosesc primii 279936, ca în executabilul original C++.
-Versiunea inițială a validatorului transmitea întregul fișier și compara inclusiv padding-ul;
-actualizați repository-ul și repetați testul dacă ați folosit acea versiune.
-Continuați la notebookuri numai după `PASS` pentru modelul respectiv. La `FAIL`, opriți
-comparația și păstrați mesajul complet pentru diagnostic.
+The first test checks only library loading. The next two actually execute the CPU
+kernels with binary inputs from `tests/Test_image` and compare bytes in the valid
+channels against `verification.bin`, excluding padding as in
+`OffloadUtils::verifyBuffers`.
+For DoReFaNet, the input file buffer contains 393216 bytes but the effective input
+is 279936 bytes. The first 279936 are used, as in the original C++ executable.
+The initial version of the validator passed the entire file and compared padding
+as well. Update the repository and rerun the test if you used that version.
+Proceed to a notebook only after receiving `PASS` for its model. On `FAIL`,
+stop comparisons and retain the full diagnostic output.
 
-Referința C++/HLS nu este un runtime AI optimizat pentru Pi. Inferența poate dura minute.
-La fiecare 15 secunde apare timpul scurs, fără estimare de progres. Întreruperea din Jupyter
-poate fi întârziată până la revenirea apelului nativ. Nu porniți o a doua inferență în paralel.
+The C++/HLS reference is not an optimized AI runtime for the Pi. Inference can
+take minutes. Elapsed time is displayed every 15 seconds without estimating
+progress. A Jupyter interrupt may not take effect until the native call returns.
+Do not start another inference concurrently.
 
-## 3. Pornire Jupyter
+## 3. Starting Jupyter
 
 ```bash
 bash raspberry_pi/start_jupyter.sh
 ```
 
-Deschideți URL-ul local cu token afișat de Jupyter. Pentru acces de pe alt calculator,
-folosiți un tunel SSH către portul afișat (exemplu pentru portul 8888):
+Open the local token-authenticated URL displayed by Jupyter. To access it from
+another computer, use an SSH tunnel to the reported port (example for port 8888):
 
 ```bash
-ssh -L 8888:127.0.0.1:8888 UTILIZATOR@ADRESA_RPI
+ssh -L 8888:127.0.0.1:8888 USER@RPI_ADDRESS
 ```
 
-Apoi deschideți în browser URL-ul `127.0.0.1:8888` cu tokenul serverului de pe Pi.
-Scriptul limitează BLAS/OpenMP la un thread; notebookurile aplică și `threadpoolctl`.
-Rulați celulele în ordine. La final executați celula de eliberare a memoriei.
+Then open `127.0.0.1:8888` in your browser with the token from the Pi's Jupyter server.
+The script limits BLAS/OpenMP to one thread; the notebooks also use `threadpoolctl`.
+Run cells in order and execute the memory-cleanup cell at the end.
 
-## 4. Aceeași cameră Logitech pentru Home Assistant și teste
+## 4. Sharing the Logitech camera with Home Assistant
 
-uStreamer continuă să dețină camera USB și să transmită către Home Assistant.
-Notebookul 05.1 cere doar o imagine statică de la serverul existent:
+uStreamer remains the sole process accessing the USB camera and continues
+streaming to Home Assistant. Notebook 05.1 requests a single still image
+from the existing server:
 
 ```python
 SOURCE = 'snapshot'
 SNAPSHOT_URL = 'http://127.0.0.1:8080/snapshot'
 ```
 
-Nu folosește `VideoCapture`, nu deschide `/dev/video0` și nu oprește servicii.
-URL-ul trebuie să returneze JPEG/PNG, nu fluxul multipart de la `/stream`.
-Dacă uStreamer ascultă pe alt port, schimbați URL-ul. Un timeout sau o eroare HTTP trebuie
-rezolvată verificând serverul existent, fără a porni un al doilea proces pe cameră.
-05.1 procesează un singur cadru per rulare; nu este un detector video în timp real.
+It does not use `VideoCapture`, open `/dev/video0`, or stop any services.
+The URL must return JPEG/PNG, not the multipart stream at `/stream`.
+If uStreamer uses a different port, change the URL. Resolve timeouts and HTTP
+errors by checking the existing server, rather than starting a second camera process.
+Notebook 05.1 processes one frame per invocation; it is not a real-time video detector.
 
-Captura stă în memorie. Darknet cere căi de fișiere: intrarea PNG și ieșirile lui temporare
-sunt create în `/dev/shm` și șterse la ieșirea din context, inclusiv la excepții Python.
-Nu există fallback pe cardul SD și nu sunt salvate automat capturi sau fișiere JSON.
-O terminare forțată a procesului poate lăsa temporare în RAM până la curățare/restart.
-Jupyter poate include imaginile afișate în notebook la salvare; ștergeți ieșirile înainte
-de salvare dacă nu doriți să persiste acolo.
+The snapshot stays in memory. Darknet requires file paths, so input PNG files and
+its temporary outputs are created in `/dev/shm` and removed when their context
+ends, including on Python exceptions. There is no SD-card fallback and no automatic
+saving of captures or JSON files. Forced process termination can leave temporary
+files in RAM until cleanup or restart.
+Jupyter may embed displayed images in the saved notebook; clear cell outputs
+before saving if you do not want the images retained.
 
-## 5. Comparație corectă
+## 5. Fair comparison methodology
 
-Folosiți inițial `SOURCE = 'file'` și exact același fișier pe ambele platforme.
-02.1 folosește implicit `n01484850_0.jpg`, 05.1 `dog.jpg`.
-Fiecare notebook afișează SHA256 al intrării și al ieșirii cuantizate.
-Un cadru nou de cameră nu este aceeași intrare ca un cadru capturat anterior pe PYNQ.
+Initially use `SOURCE = 'file'` and exactly the same input file on both platforms.
+Notebook 02.1 defaults to `n01484850_0.jpg` and 05.1 to `dog.jpg`.
+Each notebook displays SHA256 hashes of its input and quantized output.
+A fresh camera frame is not identical to a previously acquired frame on PYNQ.
 
-| Măsurătoare | Include |
+| Measurement | Scope |
 | --- | --- |
-| `quantized_core_s` | Numai apelul `classifier.inference`, echivalent limitei offload PYNQ |
-| `first_cpu_s`, `last_cpu_s` | Convoluția inițială și FC/convoluția finală pe CPU |
-| `packing_s`, `unpacking_s` | Conversia bufferelor pentru nucleul cuantizat |
-| `preprocess_s` | Citire/transformare imagine pentru model |
-| `decode_draw_ram_io_s` (05.1) | Decodare, desenare, fișiere temporare în RAM |
-| Achiziție snapshot | Raportată separat, în afara inferenței |
+| `quantized_core_s` | Only the `classifier.inference` call, corresponding to the PYNQ offload boundary |
+| `first_cpu_s`, `last_cpu_s` | Initial convolution and final FC/convolution on the CPU |
+| `packing_s`, `unpacking_s` | Buffer conversion for the quantized kernel |
+| `preprocess_s` | Image loading and transformation for the model |
+| `decode_draw_ram_io_s` (05.1) | Decoding, drawing and RAM temporary-file I/O |
+| Snapshot acquisition | Reported separately, outside inference |
 
-Suma etapelor din noile notebookuri nu are aceleași limite ca suma graficelor PYNQ 02/05,
-care nu includ preprocesarea și bufferele. Încărcarea modelului, afișarea graficelor și
-calculul hash-urilor sunt în afara etapelor cronometrate. Raportul CPU/FPGA descrie această
-referință software, nu viteza maximă posibilă a unui Raspberry Pi cu un runtime optimizat.
+The sum of the new notebooks' measured stages does not have the same boundaries
+as the PYNQ 02/05 plot sums, which exclude preprocessing and buffers.
+Model loading, plot display and hash calculation are outside the timed stages.
+The CPU/FPGA ratio characterizes this software reference, not the maximum
+potential performance of a Raspberry Pi with an optimized runtime.
 
-Folosiți o rulare de încălzire, apoi mai multe măsurători și mediana. Notați temperatura,
-alimentarea, versiunea OS/NumPy/BLAS, limita de threaduri și faptul că uStreamer este activ.
-Diferențele BLAS pot afecta ușor etapele float; verificați mai întâi ieșirea cuantizată.
-Nu sunt modificate pragurile/greutățile pentru a produce rezultate mai favorabile.
+Run one warm-up followed by multiple measurements and report the median.
+Record temperature, power supply, OS/NumPy/BLAS versions, thread limits and
+the fact that uStreamer remains active. BLAS differences may slightly affect
+floating-point stages; verify the quantized outputs first.
+No thresholds or weights were adjusted to produce more favorable results.
 
-## Teste pentru dezvoltare
+## Development tests
 
 ```bash
 raspberry_pi/.venv/bin/python -m unittest discover -s tests -p 'test_rpi*.py' -v
 ```
 
-Aceste teste verifică împachetarea biților, snapshot HTTP, curățarea temporarelor RAM,
-structura notebookurilor și adaptorul Darknet dacă biblioteca sa este disponibilă.
-Nu înlocuiesc verificarea inferenței ARM64 din secțiunea 2.
+These tests cover bit packing, HTTP snapshots, RAM temporary-file cleanup,
+notebook structure and the Darknet adapter if its library is available.
+They do not replace ARM64 inference verification in Section 2.
 
+## 02.2 — MobileNet with OpenCV DNN
 
-## 02.2 — MobileNet cu OpenCV DNN
+[Notebook 02.2](../notebooks/02.2_mobilenet-opencv-imagenet-rpi.ipynb) uses
+MobileNet v1 ImageNet via OpenCV 4.x CPU in the **QNN Raspberry Pi** kernel.
+Open it from the repository directory and run the cells in order.
+Do not install Caffe/TensorFlow or upgrade OpenCV with pip: the already installed
+Debian 4.10 package is sufficient. The first run downloads approximately 17 MB
+of SHA256-verified model, configuration and label files into
+`raspberry_pi/.deps/mobilenet`.
 
-[Notebookul 02.2](../notebooks/02.2_mobilenet-opencv-imagenet-rpi.ipynb) folosește
-MobileNet v1 ImageNet prin OpenCV 4.x CPU, în kernelul **QNN Raspberry Pi**.
-Deschideți-l din folderul repository-ului și rulați celulele în ordine. Nu instalați
-Caffe/TensorFlow și nu actualizați OpenCV prin pip: pachetul Debian 4.10 deja instalat este suficient.
-La prima rulare se descarcă aproximativ 17 MB de model, configurație și etichete,
-verificate SHA256, în `raspberry_pi/.deps/mobilenet`.
+The notebook contains Top-5 results, warm-up, and five measurements with
+one and four threads, median/min/max, and an automatically generated table
+and chart using the user's historical measurements:
+66.6034 s for the three DoReFaNet stages on RPi and 1.296 s for the same
+stages on PYNQ.
+The historic predictions used different images; the comparison concerns
+the order of magnitude of execution time, not classification accuracy.
+MobileNet is a different model, not a DoReFaNet conversion.
+Its full-model time is compared against full DoReFaNet computation,
+not the 0.057 s FPGA core time.
+Result files and captures are not saved automatically.
 
-Notebookul include Top-5, încălzire și cinci măsurători pentru 1 și 4 threaduri,
-mediană/min/max și tabel/grafic automat cu rezultatele istorice ale utilizatorului:
-66,6034 s pentru cele trei etape DoReFaNet pe RPi și 1,296 s pentru aceleași etape pe PYNQ.
-Predicțiile istorice provin din imagini diferite; comparația este pentru ordinul de mărime
-al timpului, nu pentru acuratețe. MobileNet este alt model, nu o conversie DoReFaNet.
-Timpul întregului MobileNet se compară cu întregul calcul DoReFaNet, nu cu nucleul FPGA de 0,057 s.
-Nu se salvează automat fișiere de rezultate sau capturi.
-
-Validare: celulele 02.2 au fost testate cu inferență MobileNet reală pe x86_64/OpenCV 4.10;
-timpii MobileNet pe Raspberry Pi trebuie măsurați local. Testele native QNN pe Pi au trecut
-la 18 octombrie 2026: DoReFaNet 67,017 s și Tinier-YOLO 274,349 s pentru nucleele cuantizate.
+Validation: notebook 02.2 cells were tested with actual MobileNet inference on
+x86_64/OpenCV 4.10; MobileNet execution times on Raspberry Pi must be measured
+on that device. Native QNN tests on Pi passed on 18 October 2026:
+DoReFaNet 67.017 s and Tinier-YOLO 274.349 s for the quantized kernels.
